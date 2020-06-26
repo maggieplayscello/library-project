@@ -8,7 +8,7 @@
 <title>Library Catalogue Home</title>
 </head>
 <body>
-<div>
+	<div id="wrapper">
 	<h1>Search</h1>
 		<p><em>Below you can scroll through the entire library catalogue, shown alphabetically by composer last name, or search the collection. 
 		Click on the title for details about the piece.</em></p>
@@ -33,7 +33,7 @@
 			<button type="submit">Search</button>	
 		</form>
 	</div>
-		<br><br>
+		<br><hr><br>
 
 		<table class="catalogue">
 			<tr>
