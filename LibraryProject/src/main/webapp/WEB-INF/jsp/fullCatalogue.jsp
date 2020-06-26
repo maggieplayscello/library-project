@@ -2,13 +2,40 @@
 
 <c:import url="/WEB-INF/jsp/common/header.jsp" />
 
+<input type="hidden" name="request" value="${request}"/>
 <html>
 <head>
 <title>Library Catalogue Home</title>
 </head>
 <body>
-	<p><em>Below you can scroll through the entire library catalogue, shown alphabetically by composer last name. Click on the title for details about the piece.</em></p>
-		<table>
+<div>
+	<h1>Search</h1>
+		<p><em>Below you can scroll through the entire library catalogue, shown alphabetically by composer last name, or search the collection. 
+		Click on the title for details about the piece.</em></p>
+		<br><br>
+
+		<div id="catSearchForm">	
+			<c:url value='/catalogueSearchResults' var='catSearchVar'>
+				<c:param name='request' value="${request}"/>
+			</c:url>
+			
+				<form method="GET" action="${catSearchVar}">
+					<div>
+						<label for="title">Title:</label> 
+						<input type="text" name="searchTitle" placeHolder="Title" id="searchTitle" />
+					</div>
+
+					<div class="form-group pull-right">
+						<label for="composer">Composer:</label> 
+						<input type="text" name="searchComposer" placeholder="Composer" id="searchComposer" />
+					</div>
+
+			<button type="submit">Search</button>	
+		</form>
+	</div>
+		<br><br>
+
+		<table class="catalogue">
 			<tr>
 				<th align="left">Call No.</th>
 				<th align="left">Composer</th>
@@ -18,7 +45,7 @@
 			</tr>
 		
 	<c:forEach items="${allPieces}" var="piece">
-		<c:url value='/details' var='detailsUrl'>
+		<c:url value='/pieceDetails' var='detailsUrl'>
 			<c:param name='catalogueId' value='${piece.catalogueId}' />
 		</c:url>
 		<tr>
@@ -31,6 +58,8 @@
 			<tr>
 		</c:forEach>
 	</table>
-		
+	
+</div>	
 </body>
 </html>
+<c:import url="/WEB-INF/jsp/common/footer.jsp" />

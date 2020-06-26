@@ -1,6 +1,8 @@
 package com.techelevator.model;
 
+
 import java.util.ArrayList;
+
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -9,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Component
 public class JDBCPieceDAO implements PieceDAO {
@@ -40,6 +44,27 @@ public class JDBCPieceDAO implements PieceDAO {
 		}
 		return allPieces;
 	}
+	
+	@Override
+	public List<Piece> searchPieces(@RequestParam(required = false) String searchTitle, @RequestParam(required = false) String searchComposer) {
+		List<Piece> allPieces = new ArrayList<>();
+		if (searchTitle == "" && searchComposer != "") {
+			searchTitle = "LKJDLKJDLKJDLKJDF";
+		}
+		if(searchComposer == "" && searchTitle != "") {
+			searchComposer = "LDKJDLKFJSDF";
+		}
+		
+		String sql = "SELECT * FROM library WHERE title LIKE ? OR composer LIKE ? ORDER BY composer";
+		if (searchTitle != "LKJDLKJDLKJDLKJDF" && searchComposer != "LDKJDLKFJSDF") {
+			sql = "SELECT * FROM library WHERE title LIKE ? OR composer LIKE ? ORDER BY composer";
+		}
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sql, searchTitle + "%", searchComposer + "%");
+		while (results.next()) {
+			allPieces.add(mapRowToPiece(results));
+		}
+		return allPieces;
+	}
 
 	@Override
 	public Piece searchByCatalogueId(Double catalogueId) {
@@ -52,16 +77,6 @@ public class JDBCPieceDAO implements PieceDAO {
 		return pieceById;
 	}
 
-	@Override
-	public List<Piece> searchByComposer(String composer) {
-		List<Piece> allPiecesByComposer = new ArrayList<>();
-		String sql = "SELECT * FROM library WHERE composer LIKE ? ORDER BY title";
-		SqlRowSet results = jdbcTemplate.queryForRowSet(sql,  "%" + composer + "%");
-		while (results.next()) {
-			allPiecesByComposer.add(mapRowToPiece(results));
-		}
-		return allPiecesByComposer;	
-	}
 
 	@Override
 	public List<Piece> searchByPublisher(String publisher) {
@@ -74,16 +89,6 @@ public class JDBCPieceDAO implements PieceDAO {
 		return allPiecesByPublisher;	
 	}
 
-	@Override
-	public List<Piece> searchByTitle(String title) {
-		List<Piece> allPiecesByTitle = new ArrayList<>();
-		String sql = "SELECT * FROM library WHERE publisher LIKE ? ORDER BY composer, title";
-		SqlRowSet results = jdbcTemplate.queryForRowSet(sql,  "%" + title + "%");
-		while (results.next()) {
-			allPiecesByTitle.add(mapRowToPiece(results));
-		}
-		return allPiecesByTitle;	
-	}
 
 	@Override
 	public List<Piece> searchByEnsembleType(String ensembleType) {
@@ -102,5 +107,5 @@ public class JDBCPieceDAO implements PieceDAO {
 		jdbcTemplate.update(sql, newPiece.getCatalogueId(), newPiece.getComposer(), newPiece.getTitle(), newPiece.getEnsembleType(), newPiece.getPublisher());		
 	}
 
-}
 
+}

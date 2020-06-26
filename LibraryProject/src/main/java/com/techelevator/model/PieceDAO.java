@@ -6,16 +6,15 @@ public interface PieceDAO {
 	
 	public List<Piece> getAllPieces();
 	
+	public List<Piece> searchPieces(String searchTitle, String searchComposer);
+
 	public Piece searchByCatalogueId(Double catalogueId);
 	
-	public List<Piece> searchByComposer(String composer);
-	
 	public List<Piece> searchByPublisher(String publisher);
-	
-	public List<Piece> searchByTitle(String title);
 	
 	public List<Piece> searchByEnsembleType(String ensembleType);
 	
 	public void saveNewPiece(Piece newPiece);
+
 	
 }

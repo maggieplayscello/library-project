@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
 	<title>Library Catalogue</title>
-	<c:url value="/css/library.css" var="cssHref" />
+	<c:url value="/css/site.css" var="cssHref" />
     <link rel="stylesheet" href="${cssHref}">
 </head>
 <body>
@@ -17,8 +17,7 @@
 
 		<ul>
 			<li><a href='${homeURL}'> Home</a></li>
-			<li><a href='${fullCatalogueUrl}'> View Full Catalogue</a></li>		
-			<li><a href='${searchUrl}'> Search Holdings</a></li>
+			<li><a href='${fullCatalogueUrl}'> Full Catalogue</a></li>		
 			<li><a href='${addUrl}'> Add New Piece</a></li>
 		</ul>
 	</nav>
