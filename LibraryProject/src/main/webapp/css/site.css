@@ -1,12 +1,31 @@
 * {
     font-family: serif;
-    background-color: antiquewhite;
 }
 
+body {
+    background-color: #F7F3E3;
+    background-image: url("mahlermanuscript.jpg");
+}
+
+#wrapper {
+   width: 98%;
+   height: auto;
+   margin: 0 auto;
+   padding: 10px;
+   background-color: #F7F3E3;
+}
+
+
 nav {
-	width: 100%;
 	margin: 0;
 	padding: 10px;
+	display: flex;
+	flex-direction: row;
+}
+
+.nav-item {
+	list-style-type: none;
+	letter-spacing: 3px;
 }
 
 ul {
@@ -21,20 +40,22 @@ li a {
 	list-style: none;
 	text-align: center;
 	vertical-align: middle;
-	background-color: black;
+	background-color: #090302;
 	color: antiquewhite;
+}
+
+li a:hover {
+	font-weight: boldest;
+	text-decoration: none;
+	color: #AF9164;
 }
 
 nav ul li {
 	width: 100%;
-	background-color: black;
+	background-color: #090302;
 	list-style: none;
 	text-align: center;
 	padding: 20px;
-}
-
-nav:after {
-	clear: both;
 }
 
 li a:hover {
@@ -58,22 +79,21 @@ form button {
 	margin-left: 224px;
 }
 
-th, td {
-	color: black;
+.catalogue {
+	width: 90%;
+	font-size: 15px;
+	margin: auto;
+	border-bottom: 1px solid rgb(184,195,163);
 }
 
 table th {
-	align: left;
-}
-
-table tr:first-child {
-	padding-bottom: 10px;
-	font-size: 1.1em;
+	border-bottom: 1px solid black;
+	padding: 2px 10px 2px 10px;
 }
 
 table td {
-	min-width: 75px;
-	padding: 5px 5px;
+	width: auto;
+	padding: 5px 10px 5px 10px;
 }
 
 table a {
