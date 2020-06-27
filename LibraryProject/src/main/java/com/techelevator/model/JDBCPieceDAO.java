@@ -26,18 +26,20 @@ public class JDBCPieceDAO implements PieceDAO {
 
 	private Piece mapRowToPiece(SqlRowSet row) {
 		Piece piece = new Piece();
-		piece.setCatalogueId(row.getDouble("call_num"));
-		piece.setComposer(row.getString("composer"));
+		piece.setCatalogueId(row.getInt("call_num"));
+		piece.setComposerLastName(row.getString("composer_last"));
+		piece.setComposerFirstName(row.getString("composer_first"));
 		piece.setTitle(row.getString("title"));
-		piece.setEnsembleType(row.getString("ensemble"));
+		piece.setGenre(row.getString("genre"));
 		piece.setPublisher(row.getString("publisher"));
+		piece.setSoloInstrument(row.getString("solo_instrument"));
 		return piece;
 	}
 	
 	@Override
 	public List<Piece> getAllPieces() {
 		List<Piece> allPieces = new ArrayList<>();
-		String sql = "SELECT * FROM library ORDER BY composer";
+		String sql = "SELECT * FROM library ORDER BY composer_last";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
 		while (results.next()) {
 			allPieces.add(mapRowToPiece(results));
@@ -46,26 +48,16 @@ public class JDBCPieceDAO implements PieceDAO {
 	}
 	
 	@Override
-	public List<Piece> searchPieces(@RequestParam(required = false) String searchTitle, @RequestParam(required = false) String searchComposer) {
-		List<Piece> allPieces = new ArrayList<>();
-		if (searchTitle == "" && searchComposer != "") {
-			searchTitle = "LKJDLKJDLKJDLKJDF";
-		}
-		if(searchComposer == "" && searchTitle != "") {
-			searchComposer = "LDKJDLKFJSDF";
-		}
-		
-		String sql = "SELECT * FROM library WHERE title LIKE ? OR composer LIKE ? ORDER BY composer";
-		if (searchTitle != "LKJDLKJDLKJDLKJDF" && searchComposer != "LDKJDLKFJSDF") {
-			sql = "SELECT * FROM library WHERE title LIKE ? OR composer LIKE ? ORDER BY composer";
-		}
-		SqlRowSet results = jdbcTemplate.queryForRowSet(sql, searchTitle + "%", searchComposer + "%");
+	public List<Piece> searchPieces(String searchTitle, String searchComposer) {
+		List<Piece> allPieces = new ArrayList<>();		
+		String sql = "SELECT * FROM library WHERE UPPER(title) LIKE ? AND UPPER(composer_last) LIKE ? ORDER BY composer_last";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sql, "%" + searchTitle.toUpperCase() + "%", searchComposer.toUpperCase() + "%");
 		while (results.next()) {
 			allPieces.add(mapRowToPiece(results));
 		}
 		return allPieces;
 	}
-
+	
 	@Override
 	public Piece searchByCatalogueId(Double catalogueId) {
 		Piece pieceById = null;
@@ -77,34 +69,10 @@ public class JDBCPieceDAO implements PieceDAO {
 		return pieceById;
 	}
 
-
-	@Override
-	public List<Piece> searchByPublisher(String publisher) {
-		List<Piece> allPiecesByPublisher = new ArrayList<>();
-		String sql = "SELECT * FROM library WHERE publisher LIKE ? ORDER BY composer, title";
-		SqlRowSet results = jdbcTemplate.queryForRowSet(sql,  "%" + publisher + "%");
-		while (results.next()) {
-			allPiecesByPublisher.add(mapRowToPiece(results));
-		}
-		return allPiecesByPublisher;	
-	}
-
-
-	@Override
-	public List<Piece> searchByEnsembleType(String ensembleType) {
-		List<Piece> allPiecesByEnsemble = new ArrayList<>();
-		String sql = "SELECT * FROM library WHERE publisher LIKE ? ORDER BY composer, title";
-		SqlRowSet results = jdbcTemplate.queryForRowSet(sql,  "%" + ensembleType + "%");
-		while (results.next()) {
-			allPiecesByEnsemble.add(mapRowToPiece(results));
-		}
-		return allPiecesByEnsemble;	
-	}
-
 	@Override
 	public void saveNewPiece(Piece newPiece) {
-		String sql = "INSERT INTO library(call_num, composer, title, ensemble, publisher) VALUES (?,?,?,?,?)";
-		jdbcTemplate.update(sql, newPiece.getCatalogueId(), newPiece.getComposer(), newPiece.getTitle(), newPiece.getEnsembleType(), newPiece.getPublisher());		
+		String sql = "INSERT INTO library(call_num, composer_last, composer_first, title, genre, publisher) VALUES (?,?,?,?,?)";
+		jdbcTemplate.update(sql, newPiece.getCatalogueId(), newPiece.getComposerLastName(), newPiece.getComposerFirstName(), newPiece.getTitle(), newPiece.getGenre(), newPiece.getPublisher());		
 	}
 
 

@@ -7,10 +7,15 @@
 <title>Piece Details</title>
 </head>
 <section id="pieceDetail">
-	<h2><c:out value='Call Number: ${catalogueId.catalogueId}' /></h2>
-	<c:out value=" Composer: ${catalogueId.composer}" /><br>
-	<c:out value="Title: ${catalogueId.title}" /><br>
-	<c:out value="Ensemble: ${catalogueId.ensembleType}" /><br>
-	<c:out value="Publisher: ${catalogueId.publisher}" /><br>
+	<div id="wrapper">
+		<h2><c:out value="Call Number: ${catalogueId.catalogueId}" /></h2>
+		<c:out value=" Composer: ${catalogueId.composerFirstName} ${catalogueId.composerLastName}"  /><br>
+		<c:out value="Title: ${catalogueId.title}" /><br>
+		<c:out value="Genre: ${catalogueId.genre}" /><br>
+		<c:out value="Publisher: ${catalogueId.publisher}" /><br>
+		<c:if test = "${catalogueId.soloInstrument != NULL}">
+			<c:out value="Solo Instrument: ${catalogueId.soloInstrument}" />
+		</c:if>
+	</div>
 </section>
 </html>

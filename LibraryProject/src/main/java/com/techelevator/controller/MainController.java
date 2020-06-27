@@ -20,7 +20,7 @@ public class MainController {
 	@Autowired 
 	private PieceDAO pieceDAO;
 	
-	@RequestMapping("/home")
+	@RequestMapping(path= {"/home"}, method=RequestMethod.GET)
 	public String displayHome(ModelMap map) {
 		return "home";
 	}
@@ -33,10 +33,9 @@ public class MainController {
 	}
 	
 	@RequestMapping("/catalogueSearchResults")
-	public String displayCatalogueSearch(@RequestParam(required = false) String request, @RequestParam(required = false) String searchTitle, @RequestParam(required = false) String searchComposer, ModelMap map) {
+	public String displayCatalogueSearch(ModelMap map, String searchTitle, String searchComposer) {
 		List<Piece> piece = pieceDAO.searchPieces(searchTitle, searchComposer);
 		map.put("allPieces", piece);
-		map.addAttribute("request", request);
 		return "fullCatalogue";
 	}
 	
@@ -61,33 +60,23 @@ public class MainController {
 	
 	@RequestMapping(path="/processAdd", method=RequestMethod.POST)
 	public String processAdd(@RequestParam int catalogueId, 
-			@RequestParam String composer, 
+			@RequestParam String composerLastName, 
+			@RequestParam String composerFirstName, 
 			@RequestParam String title, 
-			@RequestParam String ensembleType, 
+			@RequestParam String genre, 
 			@RequestParam String publisher, 
 			ModelMap map, RedirectAttributes ra) {
 		Piece newPiece = new Piece();
-		newPiece.setCatalogueId((double) catalogueId);
-		newPiece.setComposer(composer);
+		newPiece.setCatalogueId(catalogueId);
+		newPiece.setComposerLastName(composerLastName);
+		newPiece.setComposerFirstName(composerFirstName);
 		newPiece.setTitle(title);
-		newPiece.setEnsembleType(ensembleType);
+		newPiece.setGenre(genre);
 		newPiece.setPublisher(publisher);
 		pieceDAO.saveNewPiece(newPiece);
 		ra.addFlashAttribute("pieceName", newPiece);
 		return "redirect:/fullCatalogue";
 	}
-	
-	
-	@RequestMapping("/browse")
-	public String browse() {
-		return "browse";
-	}
-	
-	@RequestMapping(path = "/browseSelection", method = RequestMethod.GET)
-	public String browseView(@RequestParam String ensembleType, ModelMap map) {
-		List <Piece> piecesByEnsemble = pieceDAO.searchByEnsembleType(ensembleType);
-		map.put("pieceList", piecesByEnsemble);
-		return "browseSelection";
-	}
+
 	
 }

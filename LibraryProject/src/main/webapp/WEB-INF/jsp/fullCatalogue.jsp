@@ -26,7 +26,7 @@
 					</div>
 
 					<div class="form-group pull-right">
-						<label for="composer">Composer:</label> 
+						<label for="composer">Composer (Last Name):</label> 
 						<input type="text" name="searchComposer" placeholder="Composer" id="searchComposer" />
 					</div>
 
@@ -40,7 +40,7 @@
 				<th align="left">Call No.</th>
 				<th align="left">Composer</th>
 				<th align="left">Title</th>
-				<th align="left">Ensemble</th>
+				<th align="left">Genre</th>
 				<th align="left">Publisher</th>
 			</tr>
 		
@@ -50,10 +50,10 @@
 		</c:url>
 		<tr>
 			<td><c:out value="${piece.catalogueId}" /></td>
-			<td><c:out value="${piece.composer}" /></td>
+			<td><c:out value="${piece.composerLastName}" /></td>
 			<c:url value='/add' var='addUrl'/>
 			<td><a href='${detailsUrl}'>${piece.title}</a></td>
-			<td><c:out value="${piece.ensembleType}" /></td>
+			<td><c:out value="${piece.genre}" /></td>
 			<td><c:out value="${piece.publisher}" /></td>
 			<tr>
 		</c:forEach>
