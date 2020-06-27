@@ -10,7 +10,9 @@ public interface PieceDAO {
 	
 	public void saveNewPiece(Piece newPiece);
 
-	Piece searchByCatalogueId(Double catalogueId);
+	Piece searchByCatalogueId(int catalogueId);
+
+	List<Piece> searchByGenre(String genre);
 
 	
 }

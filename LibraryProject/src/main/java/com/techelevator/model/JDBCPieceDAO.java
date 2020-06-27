@@ -51,7 +51,7 @@ public class JDBCPieceDAO implements PieceDAO {
 	public List<Piece> searchPieces(String searchTitle, String searchComposer) {
 		List<Piece> allPieces = new ArrayList<>();		
 		String sql = "SELECT * FROM library WHERE UPPER(title) LIKE ? AND UPPER(composer_last) LIKE ? ORDER BY composer_last";
-		SqlRowSet results = jdbcTemplate.queryForRowSet(sql, "%" + searchTitle.toUpperCase() + "%", searchComposer.toUpperCase() + "%");
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sql, "%" + searchTitle.toUpperCase() + "%", "%" + searchComposer.toUpperCase() + "%");
 		while (results.next()) {
 			allPieces.add(mapRowToPiece(results));
 		}
@@ -59,7 +59,7 @@ public class JDBCPieceDAO implements PieceDAO {
 	}
 	
 	@Override
-	public Piece searchByCatalogueId(Double catalogueId) {
+	public Piece searchByCatalogueId(int catalogueId) {
 		Piece pieceById = null;
 		String sql = "SELECT * FROM library WHERE call_num = ?";
 		SqlRowSet result = jdbcTemplate.queryForRowSet(sql, catalogueId);
@@ -68,6 +68,18 @@ public class JDBCPieceDAO implements PieceDAO {
 		}
 		return pieceById;
 	}
+	
+	@Override
+	public List<Piece> searchByGenre(String genre) {
+		List<Piece> allPieces = new ArrayList<>();
+		String sql = "SELECT * FROM library WHERE genre = ?";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sql, genre);
+		while (results.next()) {
+			allPieces.add(mapRowToPiece(results));
+		}
+		return allPieces;
+	}
+	
 
 	@Override
 	public void saveNewPiece(Piece newPiece) {

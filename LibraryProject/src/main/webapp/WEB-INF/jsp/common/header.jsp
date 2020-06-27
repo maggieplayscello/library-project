@@ -12,12 +12,13 @@
 	<nav>
 		<c:url value='/home' var='homeURL'/>
 		<c:url value='/fullCatalogue' var='fullCatalogueUrl' />
-		<c:url value='/search' var='searchUrl' />
+		<c:url value='/browse' var='browseUrl' />
 		<c:url value='/add' var='addUrl' />
 
 		<ul>
 			<li><a href='${homeURL}'> Home</a></li>
-			<li><a href='${fullCatalogueUrl}'> Full Catalogue</a></li>		
+			<li><a href='${fullCatalogueUrl}'> Full Catalogue</a></li>
+			<li><a href='${browseUrl}'>Browse by Genre</a></li>
 			<li><a href='${addUrl}'> Add New Piece</a></li>
 		</ul>
 	</nav>

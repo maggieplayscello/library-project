@@ -39,17 +39,19 @@ public class MainController {
 		return "fullCatalogue";
 	}
 	
-	
-	@RequestMapping("/pieceDetails")
-	public String displayPieceDetails(@RequestParam Double catalogueId, ModelMap map) {
+	@RequestMapping("/searchByIdResults")
+	public String displayCatalogueSearchById(@RequestParam int catalogueId, ModelMap map) {
 		Piece piece = pieceDAO.searchByCatalogueId(catalogueId);
 		map.put("catalogueId", piece);
 		return "pieceDetails";
 	}
 	
-	@RequestMapping("/search")
-	public String searchHome() {
-		return "search";
+	
+	@RequestMapping("/pieceDetails")
+	public String displayPieceDetails(@RequestParam int catalogueId, ModelMap map) {
+		Piece piece = pieceDAO.searchByCatalogueId(catalogueId);
+		map.put("catalogueId", piece);
+		return "pieceDetails";
 	}
 
 
@@ -78,5 +80,15 @@ public class MainController {
 		return "redirect:/fullCatalogue";
 	}
 
+	@RequestMapping("/browse")
+	public String browse() {
+		return "browse";
+	}
 	
+	@RequestMapping("/browseSelection")
+	public String browseSelection(ModelMap map, String genre) {
+		List<Piece> piece = pieceDAO.searchByGenre(genre);
+		map.put("allPieces", piece);
+		return "browse";
+	}
 }

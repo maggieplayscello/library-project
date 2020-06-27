@@ -9,16 +9,31 @@
 </head>
 <body>
 	<div id="wrapper">
-	<h1>Search</h1>
-		<p><em>Below you can scroll through the entire library catalogue, shown alphabetically by composer last name, or search the collection. 
-		Click on the title for details about the piece.</em></p>
-		<br><br>
+		<h1>Search</h1>
+			<p>Below you can scroll through the entire library catalogue, shown alphabetically by composer last name. You can go directly to a piece's 
+				details if you search its call number, or you can search by composer or title. Click on the title for details about the piece.</p> 
+			<p>Search Tips:</p>
+				<li> All searches will work with partial words; for example, "Tchaikovsky", "T", and "sky" will all bring up works by Tchaikovsky. </li>
+				<li> Words in the catalogue do not contain accents or other non-English characters; for example, "Faure", "Bartok", and "Dvorak".</li>
+		 	<p>If you would like to browse by genre, click <c:url var="browseHref" value="/browse"/><a href="${browseHref}">here</a>.</p>
+		<br>
+			
+		<c:url value='/searchByIdResults' var='idSearchVar'>
+			<c:param name='request' value="${request}"/>
+		</c:url>			
+			<form method="GET" action="${idSearchVar}">
+				<div>
+					<label for="catalogueId">Call Number:</label> 
+					<input type="number" name="catalogueId" placeHolder="Number" id="catalogueId" min="0"/>
+				</div>
+				<button type="submit">Search</button>	
+			</form>
 
+		<br>
 		<div id="catSearchForm">	
 			<c:url value='/catalogueSearchResults' var='catSearchVar'>
 				<c:param name='request' value="${request}"/>
-			</c:url>
-			
+			</c:url>			
 				<form method="GET" action="${catSearchVar}">
 					<div>
 						<label for="title">Title:</label> 
@@ -29,9 +44,9 @@
 						<label for="composer">Composer (Last Name):</label> 
 						<input type="text" name="searchComposer" placeholder="Composer" id="searchComposer" />
 					</div>
+				<button type="submit">Search</button>	
+			</form>		
 
-			<button type="submit">Search</button>	
-		</form>
 	</div>
 		<br><hr><br>
 
